@@ -1,8 +1,3 @@
-.pexel-img {
-  max-height: 350px;
-  object-fit: cover;
-}
-
 .jumbotron {
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -50,4 +45,14 @@ footer p {
   .bd-placeholder-img-lg {
     font-size: 3.5rem;
   }
+}
+
+.pexel-img {
+  max-height: 350px;
+  object-fit: cover;
+}
+
+.carousel-image {
+  max-height: 500px;
+  object-fit: cover;
 }
