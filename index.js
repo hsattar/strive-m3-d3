@@ -30,7 +30,7 @@ const searchData = () => {
             
         })
     .then(hideCards)
-    .catch(error => console.error(error))
+    .catch(error => displayErrorMessage(error))
 }
 
 const hideCards = () => {
@@ -73,7 +73,7 @@ const searchData2 = () => {
             ).join('')
         })
         .then(hideCards2)
-        .catch(error => console.error(error))
+        .catch(error => displayErrorMessage(error))
     }
     
 const hideCards2 = () => {
@@ -115,7 +115,7 @@ const userSearch = () => {
             ).join('')
         })
         .then(hideCards3)
-        .catch(error => console.error(error))
+        .catch(error => displayErrorMessage(error))
     }
     
 const hideCards3 = () => {
@@ -140,8 +140,17 @@ search.addEventListener('click', userSearch)
 const displaySuccessMessage = (numberOfImages) => {
     const successAlert = document.querySelector('.alert-success')
     successAlert.classList.remove('d-none')
-    successAlert.innerHTML = `<p>${numberOfImages} Images Have Loaded</p>`
+    successAlert.innerText = `${numberOfImages} Images Have Loaded`
     setTimeout(() => {
         successAlert.classList.add('d-none')
+    }, 5000)
+}
+
+const displayErrorMessage = (error) => {
+    const errorAlert = document.querySelector('.alert-danger')
+    errorAlert.classList.remove('d-none')
+    errorAlert.innerText = `${error}`
+    setTimeout(() => {
+        errorAlert.classList.add('d-none')
     }, 5000)
 }
