@@ -63,8 +63,8 @@ showFirstCarousel = () => {
     firstCarouselImage.classList.add('active')
 }
 
-const searchData = () => {
-    fetch(`https://api.pexels.com/v1/search?query=people`, {
+const searchData = (query) => {
+    fetch(`https://api.pexels.com/v1/search?query=${query}`, {
     headers: {
         Authorization: config.API_KEY
     }})
@@ -95,74 +95,6 @@ const searchData = () => {
     .catch(error => displayErrorMessage(error))
 }
 
-const searchData2 = () => {
-    fetch("https://api.pexels.com/v1/search?query=nature", {
-    headers: {
-        Authorization: config.API_KEY
-    }})
-    .then(response => response.json())
-    .then(body => {
-        const displayImgContainer = document.querySelector('.displayImgContainer')
-        displaySuccessMessage(body.photos.length)
-        displayImgContainer.innerHTML = 
-        body.photos.map(photo =>`
-        <div class="col-12 col-md-4">
-            <div class="card">
-                <img src=${photo.src.large} class="card-img-top pexel-img img-fluid" alt="...">
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <button class="btn btn-primary viewImage" data-toggle="modal" data-target="#">View</button>
-                            <button class="hideBtn btn btn-danger">Hide</button>
-                        </div>
-                        <p class="text-muted">${photo.id}</p>
-                    </div>
-                </div>
-            </div>
-        </div>`).join('')
-    })
-    .then(viewImage)
-    .then(hideCards)
-    .catch(error => displayErrorMessage(error))
-}
-    
-
-const userSearch = () => {
-    const userInput = document.querySelector('.searchInput')
-    fetch(`https://api.pexels.com/v1/search?query=${userInput.value}`, {
-    headers: {
-        Authorization: config.API_KEY
-    }})
-    .then(response => response.json())
-    .then(body => {
-        const displayImgContainer = document.querySelector('.displayImgContainer')
-        console.log(body.photo)
-        displaySuccessMessage(body.photos.length)
-        displayImgContainer.innerHTML = 
-        body.photos.map(photo =>`
-        <div class="col-12 col-md-4">
-            <div class="card">
-                <img src=${photo.src.large} class="card-img-top pexel-img img-fluid" alt="...">
-                <div class="card-body">
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <button class="btn btn-primary viewImage" data-toggle="modal" data-target="#">View</button>
-                            <button class="hideBtn btn btn-danger">Hide</button>
-                        </div>
-                        <p class="text-muted">${photo.id}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        `).join('')
-    })
-    .then(viewImage)
-    .then(hideCards)
-    .catch(error => displayErrorMessage(error))
-}
-
 const carouselImages = () => {
     fetch(`https://api.pexels.com/v1/search?query=house&per_page=3`, {
     headers: {
@@ -186,10 +118,17 @@ const carouselImages = () => {
 carouselImages()
 
 const loadImgBtn = document.querySelector('.loadImgBtn')
-loadImgBtn.addEventListener('click', searchData)
+loadImgBtn.addEventListener('click', () => {
+    searchData('aniamls')
+})
 
 const loadSecondaryBtn = document.querySelector('.loadSecondaryBtn')
-loadSecondaryBtn.addEventListener('click', searchData2)
+loadSecondaryBtn.addEventListener('click', () => {
+    searchData('nature')
+})
 
 const search = document.querySelector('.searchBtn')
-search.addEventListener('click', userSearch)
+search.addEventListener('click', () => {
+    const userInput = document.querySelector('.searchInput').value
+    searchData(userInput)
+})
