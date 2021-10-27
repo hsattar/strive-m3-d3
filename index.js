@@ -126,6 +126,10 @@ const hideCards3 = () => {
 }))
 }
 
+//////Extras03
+
+    fetch('')
+
 
 const loadImgBtn = document.querySelector('.loadImgBtn')
 loadImgBtn.addEventListener('click', searchData)
@@ -152,5 +156,42 @@ const displayErrorMessage = (error) => {
     errorAlert.innerText = `${error}`
     setTimeout(() => {
         errorAlert.classList.add('d-none')
-    }, 5000)
+    }, 10000)
 }
+
+const carouselData = () => {
+    fetch("https://api.pexels.com/v1/search?query=flowers", {
+  headers: {
+    Authorization: config.API_KEY
+  }})
+    .then(response => response.json())
+    .then(body => {
+            console.log(body.photos)
+            const carouselContainer = document.querySelector('.carousel-inner')
+            carouselContainer.innerHTML = body.photos.map((photo) =>
+                `
+                <div class="carousel-item">
+                    <img src="${photo.src.small}" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>First slide label</h5>
+                        <p>Some representative placeholder content for the first slide.</p>
+                    </div>
+                </div>
+                `
+            ).join('')
+            
+        })
+    .then(activateFirstSlide)
+    .catch(error => displayErrorMessage(error))
+}
+
+const activateFirstSlide = () => {
+    const slideToActivate = document.querySelector('.carousel-item:first-Child')
+    slideToActivate.classList.add("active")
+} 
+
+window.onload = () => {
+    carouselData()
+};
+
+
