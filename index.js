@@ -8,6 +8,7 @@ const searchData = () => {
     .then(body => {
             console.log(body.photos)
             const displayImgContainer = document.querySelector('.displayImgContainer')
+            displaySuccessMessage(body.photos.length)
             displayImgContainer.innerHTML = 
             
             body.photos.map((photo) =>
@@ -26,6 +27,7 @@ const searchData = () => {
             </div>
             `
             ).join('')
+            
         })
     .then(hideCards)
     .catch(error => console.error(error))
@@ -50,6 +52,7 @@ const searchData2 = () => {
     .then(body => {
             console.log(body.photos)
             const displayImgContainer = document.querySelector('.displayImgContainer')
+            displaySuccessMessage(body.photos.length)
             displayImgContainer.innerHTML = 
             
             body.photos.map((photo) =>
@@ -91,6 +94,7 @@ const userSearch = () => {
     .then(body => {
             console.log(body.photos)
             const displayImgContainer = document.querySelector('.displayImgContainer')
+            displaySuccessMessage(body.photos.length)
             displayImgContainer.innerHTML = 
             
             body.photos.map((photo) =>
@@ -133,3 +137,11 @@ const search = document.querySelector('.searchBtn')
 
 search.addEventListener('click', userSearch)
 
+const displaySuccessMessage = (numberOfImages) => {
+    const successAlert = document.querySelector('.alert-success')
+    successAlert.classList.remove('d-none')
+    successAlert.innerHTML = `<p>${numberOfImages} Images Have Loaded</p>`
+    setTimeout(() => {
+        successAlert.classList.add('d-none')
+    }, 5000)
+}
