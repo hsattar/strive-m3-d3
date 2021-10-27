@@ -1,7 +1,7 @@
 import { createClient } from 'pexels';
+require('dotenv').config()
 
-const client = createClient('563492ad6f917000010000014b7b5c512f0348b299efc18f99f8af30');
-
+const client = createClient(process.env.API_KEY);
 
 
 const LoadImgBtn = document.querySelector('.loadImgBtn')
