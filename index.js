@@ -1,9 +1,43 @@
 const hideCards = () => {
     const hideBtn = document.querySelectorAll('.hideBtn')
     hideBtn.forEach(btn => btn.addEventListener('click', (e) => {
-    const parentCard = e.target.parentElement.parentElement.parentElement.parentElement
+    const parentCard = e.target.parentElement.parentElement.parentElement.parentElement.parentElement
     parentCard.classList.add('d-none')
 }))
+}
+
+const viewImage = () => {
+    const viewImageBtn = document.querySelectorAll('.viewImage')
+    viewImageBtn.forEach(btn => btn.addEventListener('click', (e) => {
+        console.log(e)
+        const imageId = e.target.parentElement.nextElementSibling.innerText
+        const imageSrc = e.target.parentElement.parentElement.parentElement.parentElement.firstElementChild.src
+        e.target.dataset.target = `#${imageId}`
+        createModal(imageId, imageSrc)
+}))
+}
+
+const createModal = (imageId, imageSrc) => {
+    const modal=document.createElement('div')
+    modal.innerHTML = `
+    <div class="modal" id="${imageId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <img src=${imageSrc}>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+    </div>`
 }
 
 const displaySuccessMessage = (numberOfImages) => {
@@ -42,19 +76,23 @@ const searchData = () => {
         body.photos.map(photo =>`
         <div class="col-12 col-md-4">
             <div class="card">
-                <img src=${photo.src.small} class="card-img-top pexel-img img-fluid" alt="...">
+                <img src=${photo.src.large} class="card-img-top pexel-img img-fluid" alt="...">
                 <div class="card-body">
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <div class="d-flex justify-content-between">
-                        <button class="hideBtn btn btn-danger">Hide</button>
+                        <div>
+                            <button class="btn btn-primary viewImage" data-toggle="modal" data-target="#">View</button>
+                            <button class="hideBtn btn btn-danger">Hide</button>
+                        </div>
                         <p class="text-muted">${photo.id}</p>
                     </div>
                 </div>
             </div>
         </div>`).join('')        
     })
-.then(hideCards)
-.catch(error => displayErrorMessage(error))
+    .then(viewImage)
+    .then(hideCards)
+    .catch(error => displayErrorMessage(error))
 }
 
 const searchData2 = () => {
@@ -70,17 +108,21 @@ const searchData2 = () => {
         body.photos.map(photo =>`
         <div class="col-12 col-md-4">
             <div class="card">
-                <img src=${photo.src.small} class="card-img-top pexel-img img-fluid" alt="...">
+                <img src=${photo.src.large} class="card-img-top pexel-img img-fluid" alt="...">
                 <div class="card-body">
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <div class="d-flex justify-content-between">
-                        <button class="hideBtn btn btn-danger">Hide</button>
+                        <div>
+                            <button class="btn btn-primary viewImage" data-toggle="modal" data-target="#">View</button>
+                            <button class="hideBtn btn btn-danger">Hide</button>
+                        </div>
                         <p class="text-muted">${photo.id}</p>
                     </div>
                 </div>
             </div>
         </div>`).join('')
     })
+    .then(viewImage)
     .then(hideCards)
     .catch(error => displayErrorMessage(error))
 }
@@ -101,11 +143,14 @@ const userSearch = () => {
         body.photos.map(photo =>`
         <div class="col-12 col-md-4">
             <div class="card">
-                <img src=${photo.src.small} class="card-img-top pexel-img img-fluid" alt="...">
+                <img src=${photo.src.large} class="card-img-top pexel-img img-fluid" alt="...">
                 <div class="card-body">
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <div class="d-flex justify-content-between">
-                        <button class="hideBtn btn btn-danger">Hide</button>
+                        <div>
+                            <button class="btn btn-primary viewImage" data-toggle="modal" data-target="#">View</button>
+                            <button class="hideBtn btn btn-danger">Hide</button>
+                        </div>
                         <p class="text-muted">${photo.id}</p>
                     </div>
                 </div>
@@ -113,6 +158,7 @@ const userSearch = () => {
         </div>
         `).join('')
     })
+    .then(viewImage)
     .then(hideCards)
     .catch(error => displayErrorMessage(error))
 }
@@ -134,7 +180,6 @@ const carouselImages = () => {
         `).join('')
     })
     .then(showFirstCarousel)
-    .then(hideCards)
     .catch(error => displayErrorMessage(error))
 }
 
@@ -147,5 +192,4 @@ const loadSecondaryBtn = document.querySelector('.loadSecondaryBtn')
 loadSecondaryBtn.addEventListener('click', searchData2)
 
 const search = document.querySelector('.searchBtn')
-
 search.addEventListener('click', userSearch)
