@@ -1,21 +1,11 @@
 
-require('dotenv').config()
-
-
-
-
-// const LoadImgBtn = document.querySelector('.loadImgBtn')
-// LoadImgBtn.addEventListener('click', loadImages)
-// const displayImg = document.querySelectorAll('svg')
-
 const searchData = () => {
-    fetch('https://api.pexels.com/v1/search?Ocean', {
-        "Authorization": process.env.API_KEY
-    })
+    fetch("https://api.pexels.com/v1/search?query=people", {
+  headers: {
+    Authorization: config.API_KEY
+  }})
     .then(response => response.json())
-    .then(body => {
-        console.log(body)
-        alert('Succes!')
-    })
+    .then(body => console.log(body))
+    .catch(error => console.error(error))
 }
 searchData()
