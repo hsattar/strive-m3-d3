@@ -1,6 +1,6 @@
 
 const searchData = () => {
-    fetch(`https://api.pexels.com/v1/search?query=people`, {
+    fetch(`https://api.pexels.com/v1/search?query=lights`, {
   headers: {
     Authorization: config.API_KEY
   }})
@@ -9,10 +9,8 @@ const searchData = () => {
             console.log(body.photos)
             const displayImgContainer = document.querySelector('.displayImgContainer')
             displaySuccessMessage(body.photos.length)
-            displayImgContainer.innerHTML = 
-            
-            body.photos.map((photo) =>
-                `
+            displayImgContainer.innerHTML = body.photos.map((photo) =>
+            `
             <div class="col-12 col-md-4">
                 <div class="card">
                     <img src=${photo.src.small} class="card-img-top pexel-img img-fluid" alt="...">
@@ -20,6 +18,29 @@ const searchData = () => {
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                         <div class="d-flex justify-content-between">
                             <button class="hideBtn btn btn-danger">Hide</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            View
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                    <div class="modal-body">
+                                    <img src=${photo.src.small} class="card-img-top pexel-img img-fluid" alt="...">
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
                             <p class="text-muted">${photo.id}</p>
                         </div>
                     </div>
@@ -39,6 +60,10 @@ const hideCards = () => {
     const parentCard = e.target.parentElement.parentElement.parentElement.parentElement
     parentCard.classList.add('d-none')
 }))
+}
+
+const displayImgModal = () => {
+
 }
 
 
@@ -106,6 +131,7 @@ const userSearch = () => {
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                         <div class="d-flex justify-content-between">
                             <button class="hideBtn btn btn-danger">Hide</button>
+                            
                             <p class="text-muted">${photo.id}</p>
                         </div>
                     </div>
@@ -127,9 +153,6 @@ const hideCards3 = () => {
 }
 
 //////Extras03
-
-    fetch('')
-
 
 const loadImgBtn = document.querySelector('.loadImgBtn')
 loadImgBtn.addEventListener('click', searchData)
@@ -171,7 +194,7 @@ const carouselData = () => {
             carouselContainer.innerHTML = body.photos.map((photo) =>
                 `
                 <div class="carousel-item">
-                    <img src="${photo.src.small}" class="d-block w-100" alt="...">
+                    <img src="${photo.src.small}" class="d-block w-100" style="height: 300px; object-fit: cover"alt="...">
                     <div class="carousel-caption d-none d-md-block">
                         <h5>First slide label</h5>
                         <p>Some representative placeholder content for the first slide.</p>
